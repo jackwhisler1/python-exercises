@@ -185,3 +185,33 @@ print(tower_builder(3))
 # ["  *  "]  # two spaces before/after (len - 1 - i)
 # [" *** "]  # one space before/after
 # ["*****"]
+
+
+def valid_braces(string):
+    chars = list(string)
+    opening_braces = []
+    for char in chars:
+        if char in ("({["):
+            opening_braces.append(char)
+        else:
+            # This is a closing bracket
+            if not opening_braces:
+                return False
+
+            last_opening = opening_braces[-1]
+
+            if (last_opening == "(" and char == ")") or \
+               (last_opening == "{" and char == "}") or \
+               (last_opening == "[" and char == "]"):
+                opening_braces.pop()
+            else:
+                return False
+
+    return len(opening_braces) == 0
+
+
+print(valid_braces("()"))          # True
+print(valid_braces("({[]})"))      # True
+print(valid_braces("([)]"))        # False
+print(valid_braces("((()))"))      # True
+print(valid_braces("({[}])"))      # False
